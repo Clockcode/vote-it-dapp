@@ -126,18 +126,18 @@ export function MarketBuyInterface({ marketId, market }: MarketBuyInterfaceProps
         try {
             const tx = await prepareContractCall({
                 contract,
-                method: "function buyShares(uint256 _marketId, bool _isOptionA, uint256 _amount)",
-                params: [BigInt(marketId), selectedOption === 'A', BigInt(toWei(amount.toString()))]
+                method: "function buyShares(uint256 _marketId, uint256 _amount, bool _isOptionA,)",
+                params: [BigInt(marketId),BigInt(toWei(amount.toString())), selectedOption === 'A', ]
             });
             await mutateTransaction(tx);
-            
+
             // Show success toast
             toast({
                 title: "Purchase Successful!",
                 description: `You bought ${amount} ${selectedOption === 'A' ? market.optionA : market.optionB} shares`,
                 duration: 5000, // 5 seconds
             })
-            
+
             handleCancel();
         } catch (error) {
             console.error(error);
@@ -154,11 +154,11 @@ export function MarketBuyInterface({ marketId, market }: MarketBuyInterfaceProps
 
     // Render the component
     return (
-        <div 
-            className="relative transition-[height] duration-200 ease-in-out overflow-hidden" 
+        <div
+            className="relative transition-[height] duration-200 ease-in-out overflow-hidden"
             style={{ height: containerHeight }}
         >
-            <div 
+            <div
                 ref={contentRef}
                 className={cn(
                     "w-full transition-all duration-200 ease-in-out",
@@ -168,15 +168,15 @@ export function MarketBuyInterface({ marketId, market }: MarketBuyInterfaceProps
                 {!isBuying ? (
                     // Initial option selection buttons
                     <div className="flex justify-between gap-4 mb-4">
-                        <Button 
-                            className="flex-1" 
+                        <Button
+                            className="flex-1"
                             onClick={() => handleBuy('A')}
                             aria-label={`Vote ${market.optionA} for "${market.question}"`}
                             disabled={!account}
                         >
                             {market.optionA}
                         </Button>
-                        <Button 
+                        <Button
                             className="flex-1"
                             onClick={() => handleBuy('B')}
                             aria-label={`Vote ${market.optionB} for "${market.question}"`}
@@ -194,8 +194,8 @@ export function MarketBuyInterface({ marketId, market }: MarketBuyInterfaceProps
                                 <h2 className="text-lg font-bold mb-4">Approval Needed</h2>
                                 <p className="mb-4">You need to approve the transaction before proceeding.</p>
                                 <div className="flex justify-end">
-                                    <Button 
-                                        onClick={handleSetApproval} 
+                                    <Button
+                                        onClick={handleSetApproval}
                                         className="mb-2"
                                         disabled={isApproving}
                                     >
@@ -208,9 +208,9 @@ export function MarketBuyInterface({ marketId, market }: MarketBuyInterfaceProps
                                             'Set Approval'
                                         )}
                                     </Button>
-                                    <Button 
-                                        onClick={handleCancel} 
-                                        className="ml-2" 
+                                    <Button
+                                        onClick={handleCancel}
+                                        className="ml-2"
                                         variant="outline"
                                         disabled={isApproving}
                                     >
@@ -228,8 +228,8 @@ export function MarketBuyInterface({ marketId, market }: MarketBuyInterfaceProps
                                     </span> share(s).
                                 </p>
                                 <div className="flex justify-end">
-                                    <Button 
-                                        onClick={handleConfirm} 
+                                    <Button
+                                        onClick={handleConfirm}
                                         className="mb-2"
                                         disabled={isConfirming}
                                     >
@@ -242,9 +242,9 @@ export function MarketBuyInterface({ marketId, market }: MarketBuyInterfaceProps
                                             'Confirm'
                                         )}
                                     </Button>
-                                    <Button 
-                                        onClick={handleCancel} 
-                                        className="ml-2" 
+                                    <Button
+                                        onClick={handleCancel}
+                                        className="ml-2"
                                         variant="outline"
                                         disabled={isConfirming}
                                     >
@@ -256,7 +256,7 @@ export function MarketBuyInterface({ marketId, market }: MarketBuyInterfaceProps
                             // Amount input step
                             <div className="flex flex-col">
                                 <span className="text-xs text-gray-500 mb-1">
-                                    {`1 ${selectedOption === 'A' ? market.optionA : market.optionB} = 1 PREDICT`}
+                                    {`1 ${selectedOption === 'A' ? market.optionA : market.optionB} = 1 VOTE`}
                                 </span>
                                 <div className="flex flex-col gap-1 mb-4">
                                     <div className="flex items-center gap-2 overflow-visible">

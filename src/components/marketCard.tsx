@@ -26,6 +26,7 @@ interface Market {
   outcome: number;
   totalOptionAShares: bigint;
   totalOptionBShares: bigint;
+  totalShares: bigint;
   resolved: boolean;
 }
 
@@ -42,7 +43,7 @@ export function MarketCard({ index, filter }: MarketCardProps) {
     // Get the market data
     const { data: marketData, isLoading: isLoadingMarketData } = useReadContract({
         contract,
-        method: "function getMarketInfo(uint256 _marketId) view returns (string question, string optionA, string optionB, uint256 endTime, uint8 outcome, uint256 totalOptionAShares, uint256 totalOptionBShares, bool resolved)",
+        method: "function getMarketInfo(uint256 _marketId) view returns (string question, string optionA, string optionB, uint256 endTime, uint8 outcome, uint256 totalOptionAShares, uint256 totalOptionBShares, uint256 totalShares, bool resolved)",
         params: [BigInt(index)]
     });
 
@@ -55,7 +56,8 @@ export function MarketCard({ index, filter }: MarketCardProps) {
         outcome: marketData[4],
         totalOptionAShares: marketData[5],
         totalOptionBShares: marketData[6],
-        resolved: marketData[7]
+        totalShares: marketData[7],
+        resolved: marketData[8],
     } : undefined;
 
     // Get the shares balance
@@ -79,7 +81,7 @@ export function MarketCard({ index, filter }: MarketCardProps) {
     // Check if the market should be shown
     const shouldShow = () => {
         if (!market) return false;
-        
+
         switch (filter) {
             case 'active':
                 return !isExpired;
@@ -109,7 +111,7 @@ export function MarketCard({ index, filter }: MarketCardProps) {
                     </CardHeader>
                     <CardContent>
                         {market && (
-                            <MarketProgress 
+                            <MarketProgress
                                 optionA={market.optionA}
                                 optionB={market.optionB}
                                 totalOptionAShares={market.totalOptionAShares}
@@ -118,7 +120,7 @@ export function MarketCard({ index, filter }: MarketCardProps) {
                         )}
                         {new Date(Number(market?.endTime) * 1000) < new Date() ? (
                             market?.resolved ? (
-                                <MarketResolved 
+                                <MarketResolved
                                     marketId={index}
                                     outcome={market.outcome}
                                     optionA={market.optionA}
@@ -128,7 +130,7 @@ export function MarketCard({ index, filter }: MarketCardProps) {
                                 <MarketPending />
                             )
                         ) : (
-                            <MarketBuyInterface 
+                            <MarketBuyInterface
                                 marketId={index}
                                 market={market!}
                             />
@@ -136,7 +138,7 @@ export function MarketCard({ index, filter }: MarketCardProps) {
                     </CardContent>
                     <CardFooter>
                         {market && sharesBalance && (
-                            <MarketSharesDisplay 
+                            <MarketSharesDisplay
                                 market={market}
                                 sharesBalance={sharesBalance}
                             />
