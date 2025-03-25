@@ -47,8 +47,6 @@ export function MarketTime({ endTime, className }: MarketTimeProps) {
         return result.trim();
       }
 
-    const formattedDate = formatDate(new Date(Number(endTime) * 1000).toISOString());
-
     return (
         <div
             className={cn(
