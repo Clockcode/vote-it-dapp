@@ -21,10 +21,11 @@ export function EnhancedPredictionMarketDashboard() {
     ));
 
     return (
-        <div className="min-h-screen flex flex-col">
-            <div className="flex-grow container mx-auto p-4">
-                <Navbar />
-                <div className="mb-4">
+        <>
+            <Navbar />
+            <div className="min-h-screen flex flex-col">
+                <div className="flex-grow container mx-auto p-4">
+                    <div className="mb-4">
                 </div>
                 <Tabs defaultValue="active" className="w-full">
                     <TabsList className="grid w-full grid-cols-3">
@@ -79,8 +80,9 @@ export function EnhancedPredictionMarketDashboard() {
                         </>
                     )}
                 </Tabs>
+                </div>
+                <Footer />
             </div>
-            <Footer />
-        </div>
+        </>
     );
 }

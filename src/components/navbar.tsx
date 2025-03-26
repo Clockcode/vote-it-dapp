@@ -7,6 +7,8 @@ import { createWallet, inAppWallet } from "thirdweb/wallets";
 // import { Loader2 } from "lucide-react";
 // import { useToast } from "@/components/ui/use-toast";
 import Image from "next/image";
+import { CreateMarketButton } from "./ui/createMarketButton";
+
 export function Navbar() {
     const wallets = [
         inAppWallet(),
@@ -48,7 +50,7 @@ export function Navbar() {
     // };
 
     return (
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center mb-6 p-4 bg-gray-100 border-b border-gray-200">
             <div className="flex flex-row items-center cursor-pointer hover:scale-105 transition-all duration-200 ease-in-out hover:filter hover:brightness-110">
                 <Image src="/vote-it-logo.svg" alt="logo" width={180} height={180} />
             </div>
@@ -69,6 +71,7 @@ export function Navbar() {
                         )}
                     </Button>
                 )} */}
+                <CreateMarketButton />
                 <ConnectButton
                     client={client}
                     theme={lightTheme()}

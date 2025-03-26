@@ -8,6 +8,7 @@ import { MarketResolved } from "./market-resolved";
 import { MarketPending } from "./market-pending";
 import { MarketBuyInterface } from "./market-buy-interface";
 import { MarketSharesDisplay } from "./market-shares-display";
+import Link from "next/link";
 
 // Props for the MarketCard component
 // index is the market id
@@ -105,10 +106,12 @@ export function MarketCard({ index, filter }: MarketCardProps) {
                 <MarketCardSkeleton />
             ) : (
                 <>
+                    <Link href={`/market/${index}`}>
                     <CardHeader>
                         {market && <MarketTime endTime={market.endTime} />}
-                        <CardTitle>{market?.question}</CardTitle>
-                    </CardHeader>
+                            <CardTitle>{market?.question}</CardTitle>
+                        </CardHeader>
+                    </Link>
                     <CardContent>
                         {market && (
                             <MarketProgress
